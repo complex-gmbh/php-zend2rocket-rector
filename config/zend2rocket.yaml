@@ -1,0 +1,18 @@
+parameters:
+    autoload_paths:
+        - 'autoload-rector.php'
+services:
+    Rector\Renaming\Rector\Class_\RenameClassRector:
+        $oldToNewClasses:
+            Clx_Controller_Action: ApplicationController
+    Rector\Rector\MethodCall\MethodCallToReturnRector:
+        $methodNamesByType:
+            Clx_Controller_Action:
+                - json
+                - renderScript
+    Rector\Rector\Visibility\ChangeMethodVisibilityRector:
+        $methodToVisibilityByClass:
+            Clx_Controller_Action:
+                init: protected
+    ->
+    Rector\Symfony\Rector\Controller\ActionSuffixRemoverRector: null
