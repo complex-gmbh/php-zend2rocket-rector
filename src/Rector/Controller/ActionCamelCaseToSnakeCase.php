@@ -4,60 +4,91 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\ClassMethod;
+use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
 use Rector\Rector\AbstractRector;
 use Rector\RectorDefinition\CodeSample;
 use Rector\RectorDefinition\RectorDefinition;
+use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 
-final class ActionCamelCaseToSnakeCase extends AbstractRector
+
+final class ActionSuffixRemoverRector extends AbstractRector
 {
+    /**
+     * @var ControllerMethodAnalyzer
+     */
+    private $controllerMethodAnalyzer;
+
+    /**
+     * @var IdentifierManipulator
+     */
+    private $identifierManipulator;
+
+    public function __construct(
+        ControllerMethodAnalyzer $controllerMethodAnalyzer,
+        IdentifierManipulator $identifierManipulator
+    ) {
+        $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
+        $this->identifierManipulator = $identifierManipulator;
+    }
+
+    public function getDefinition(): RectorDefinition
+    {
+        return new RectorDefinition('Converts camel-case Action methods to snake-case', [
+            new CodeSample(
+                <<<'PHP'
+class SomeController
+{
+    public function getArticleInfoAction()
+    {
+    }
+}
+PHP
+                ,
+                <<<'PHP'
+class SomeController
+{
+    public function get_article_infoAction()
+    {
+    }
+}
+PHP
+            ),
+        ]);
+    }
+
     /**
      * @return string[]
      */
     public function getNodeTypes(): array
     {
-        // what node types we look for?
-        // pick any node from https://github.com/rectorphp/rector/blob/master/docs/NodesOverview.md
-        return [MethodCall::class];
+        return [ClassMethod::class];
     }
 
-    /**
-     * @param MethodCall $node - we can add "MethodCall" type here, because only this node is in "getNodeTypes()"
-     */
     public function refactor(Node $node): ?Node
     {
-        // we only care about "set*" method names
-        if (! $this->isName($node->name, 'set*')) {
-            // return null to skip it
+        // identify if classmethod is an Actionmethod
+        if (! $this->controllerMethodAnalyzer->isAction($node)) {
             return null;
         }
 
-        $methodCallName = $this->getName($node);
-        $newMethodCallName = Strings::replace($methodCallName, '#^set#', 'change');
+        // convert node (classmethod-name) to camelcase
+        $this->convertCamelToSnake($node);
 
-        $node->name = new Identifier($newMethodCallName);
-
-        // return $node if you modified it
         return $node;
     }
 
     /**
-     * From this method documentation is generated.
+     * @return string
      */
-    public function getDefinition(): RectorDefinition
+    private function convertCamelToSnake($input)
     {
-        return new RectorDefinition(
-            'Change method calls from set* to change*.', [
-                new CodeSample(
-                // code before
-                    '$user->setPassword("123456");',
-                    // code after
-                    '$user->changePassword("123456");'
-                ),
-            ]
-        );
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
     }
 }
