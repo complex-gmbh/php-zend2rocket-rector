@@ -7,13 +7,13 @@ services:
         $oldToNewClasses:
             Clx_Controller_Action: ApplicationController
     # $this->json(x) to return $this->json(xxx)
-    Rector\Rector\MethodCall\MethodCallToReturnRector:
+    Rector\Core\MethodCall\MethodCallToReturnRector:
         $methodNamesByType:
             Clx_Controller_Action:
                 - json
                 - renderScript
     # change init to protected
-    Rector\Rector\Visibility\ChangeMethodVisibilityRector:
+    Rector\Core\Visibility\MethodCallToReturnRector:
         $methodToVisibilityByClass:
             Clx_Controller_Action:
                 init: protected
