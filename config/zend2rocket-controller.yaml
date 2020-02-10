@@ -3,20 +3,21 @@ parameters:
         - 'autoload-Rector.php'
 services:
     # rename Clx_Controller_Action class to ApplicationController
-    Rector\Renaming\Rector\Class_\RenameClassRector:
-        $oldToNewClasses:
-            Clx_Controller_Action: ApplicationController
+    #Rector\Renaming\Rector\Class_\RenameClassRector:
+    #    $oldToNewClasses:
+    #        Clx_Controller_Action: ApplicationController
     # $this->json(x) to return $this->json(xxx)
-    Rector\Rector\MethodCall\MethodCallToReturnRector:
-        $methodNamesByType:
-            Clx_Controller_Action:
-                - json
-                - renderScript
+    #Rector\Rector\MethodCall\MethodCallToReturnRector:
+    #    $methodNamesByType:
+    #        Clx_Controller_Action:
+    #            - json
+    #            - renderScript
     # change init to protected
-    Rector\Rector\Visibility\ChangeMethodVisibilityRector:
-        $methodToVisibilityByClass:
-            Clx_Controller_Action:
-                init: protected
+    #Rector\Rector\Visibility\ChangeMethodVisibilityRector:
+    #    $methodToVisibilityByClass:
+    #        Clx_Controller_Action:
+    #            init: protected
     # Camel-case to Snakecase
+    Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase: null
     # remove suffix action from functions
-    Rector\Symfony\Rector\Controller\ActionSuffixRemoverRector: null
+    #Rector\Symfony\Rector\Controller\ActionSuffixRemoverRector: null
