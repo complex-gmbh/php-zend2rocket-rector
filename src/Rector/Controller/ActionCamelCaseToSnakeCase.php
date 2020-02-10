@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
+use _HumbugBox3ab8cff0fda0\PhpParser\Node\Identifier;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
@@ -74,7 +75,7 @@ PHP
         }
 
         // convert node (classmethod-name) to camelcase
-        $this->convertCamelToSnake($this->getName($node->name));
+        $node = $this->convertCamelToSnake($node);
 
         return $node;
     }
@@ -82,8 +83,15 @@ PHP
     /**
      * @return string
      */
-    private function convertCamelToSnake($input)
+    private function convertCamelToSnake(Node $node): Node
     {
-        return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $input));
+        $NodeName = $this->getName($node->name);
+        echo $NodeName;
+        if ($NodeName === null) {
+            return;
+        }
+        $NodeName = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $NodeName));
+
+        return $node->name = new Identifier($NodeName);
     }
 }
