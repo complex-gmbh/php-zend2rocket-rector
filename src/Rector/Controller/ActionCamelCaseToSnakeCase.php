@@ -90,7 +90,7 @@ PHP
         $NodeName = $this->getName($node->name);
         sprintf("refactor this shit: %d", $NodeName);
         if ($NodeName === null) {
-            return;
+            return $node;
         }
         $NodeName = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $NodeName));
 
