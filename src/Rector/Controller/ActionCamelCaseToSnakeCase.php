@@ -75,6 +75,8 @@ PHP
         }
 
         // convert node (classmethod-name) to camelcase
+        echo "refactor this shit";
+        sprintf("refactor this shit");
         $node = $this->convertCamelToSnake($node);
 
         return $node;
