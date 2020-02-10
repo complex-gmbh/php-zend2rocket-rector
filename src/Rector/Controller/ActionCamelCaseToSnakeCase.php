@@ -74,7 +74,7 @@ PHP
         }
 
         // convert node (classmethod-name) to camelcase
-        $this->convertCamelToSnake($node->name);
+        $this->convertCamelToSnake($this->getName($node->name));
 
         return $node;
     }
