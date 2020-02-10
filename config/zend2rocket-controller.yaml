@@ -13,7 +13,7 @@ services:
                 - json
                 - renderScript
     # change init to protected
-    Rector\Rector\Visibility\MethodCallToReturnRector:
+    Rector\Rector\Visibility\ChangeMethodVisibilityRector:
         $methodToVisibilityByClass:
             Clx_Controller_Action:
                 init: protected

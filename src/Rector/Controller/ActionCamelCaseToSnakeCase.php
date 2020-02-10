@@ -13,7 +13,7 @@ use Rector\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 
 
-final class ActionSuffixRemoverRector extends AbstractRector
+final class ActionCamelCaseToSnakeCase extends AbstractRector
 {
     /**
      * @var ControllerMethodAnalyzer
