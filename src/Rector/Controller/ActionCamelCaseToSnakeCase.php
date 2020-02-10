@@ -88,7 +88,7 @@ PHP
     private function convertCamelToSnake(Node $node): Node
     {
         $NodeName = $this->getName($node->name);
-        echo $NodeName;
+        sprintf("refactor this shit: %d", $NodeName);
         if ($NodeName === null) {
             return;
         }
