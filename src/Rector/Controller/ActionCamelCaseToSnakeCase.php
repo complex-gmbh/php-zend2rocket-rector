@@ -75,8 +75,6 @@ PHP
         }
 
         // convert node (classmethod-name) to camelcase
-        echo "refactor this shit";
-        sprintf("refactor this shit");
         $node = $this->convertCamelToSnake($node);
 
         return $node;
@@ -87,13 +85,22 @@ PHP
      */
     private function convertCamelToSnake(Node $node): Node
     {
+        // check if classmethod is an Action-method
+        if (! $this->controllerMethodAnalyzer->isAction($node)) {
+            return null;
+        }
+        // remove action suffix
+        $this->identifierManipulator->removeSuffix($node, 'Action');
+
+        // get name of clasmethod-node
         $NodeName = $this->getName($node->name);
-        sprintf("refactor this shit: %d", $NodeName);
         if ($NodeName === null) {
             return $node;
         }
+        // convert camel- to snakecase
         $NodeName = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $NodeName));
+        $node->name = new Identifier($NodeName);
 
-        return $node->name = new Identifier($NodeName);
+        return $node;
     }
 }
