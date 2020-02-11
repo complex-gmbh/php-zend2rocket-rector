@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
-use _HumbugBox3ab8cff0fda0\PhpParser\Node\Identifier;
+use PhpParser\Node\Identifier;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
