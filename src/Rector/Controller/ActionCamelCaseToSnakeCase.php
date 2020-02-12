@@ -81,7 +81,7 @@ PHP
     }
 
     /**
-     * @return string
+     * @return Node
      */
     private function convertCamelToSnake(Node $node): Node
     {

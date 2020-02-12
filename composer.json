@@ -15,7 +15,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Complex\\Zend2RocketRector\\Tests\\Rector\\Controller": "tests/Rector/Controller"
+            "Complex\\Zend2RocketRector\\Tests\\Rector\\Controller\\": "tests/Rector/Controller"
         }
     },
     "require": {
