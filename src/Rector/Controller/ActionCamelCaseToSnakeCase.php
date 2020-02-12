@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Identifier;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -86,9 +87,10 @@ PHP
     private function convertCamelToSnake(Node $node): Node
     {
         // check if classmethod is an Action-method
-        if (! $this->controllerMethodAnalyzer->isAction($node)) {
-            return null;
+        if (! $this->isAction($node)) {
+            return $node;
         }
+
         // remove action suffix
         $this->identifierManipulator->removeSuffix($node, 'Action');
 
@@ -97,10 +99,31 @@ PHP
         if ($NodeName === null) {
             return $node;
         }
+
         // convert camel- to snakecase
         $NodeName = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $NodeName));
         $node->name = new Identifier($NodeName);
 
         return $node;
+    }
+
+    public function isAction(Node $node): bool
+    {
+        if (! $node instanceof ClassMethod) {
+            return false;
+        }
+
+        /*
+        $parentClassName = (string) $node->getAttribute(AttributeKey::PARENT_CLASS_NAME);
+        if (Strings::endsWith($parentClassName, 'Controller')) {
+            return true;
+        }
+        */
+
+        if (Strings::endsWith((string) $node->name, 'Action')) {
+            return true;
+        }
+
+        return false;
     }
 }
