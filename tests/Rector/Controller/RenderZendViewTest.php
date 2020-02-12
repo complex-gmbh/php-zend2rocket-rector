@@ -2,7 +2,7 @@
 
 namespace Complex\Zend2RocketRector\Tests\Rector\Controller;
 
-use Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase;
+use Complex\Zend2RocketRector\Rector\Controller\RenderZendView;
 use Iterator;
 use Complex\Zend2RocketRector\Tests\AbstractRectorWithConfigTestCase;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
@@ -26,6 +26,6 @@ class RenderZendViewTest extends AbstractRectorTestCase
 
     protected function getRectorClass(): string
     {
-        return RenderZendViewTest::class;
+        return RenderZendView::class;
     }
 }

@@ -1,4 +1,4 @@
-# php-zend2rocket-rector
+# Zend2Rocket Rector set
 
 ### Installation
 Global installation outside of the project is recommended with:
@@ -17,4 +17,9 @@ TODO
 
 ```
 vendor/bin/rector process application/B2B/controllers/ -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml -n
+```
+
+## Unittests
+```
+vendor/bin/phpunit tests/
 ```

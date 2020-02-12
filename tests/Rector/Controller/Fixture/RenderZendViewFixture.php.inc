@@ -1,6 +1,6 @@
 <?php
 
-class ArticleController {
+class ProductController {
     public function TestFunction()
     {
         // do something
@@ -8,7 +8,7 @@ class ArticleController {
         // do something
     }
 
-    public function getArticleInformationAction() {
+    public function getArticleInfoAction() {
         // do something
     }
 }
@@ -17,9 +17,8 @@ class ArticleController {
 -----
 <?php
 
-class SomeController
-{
-    public function getProductInfoAction()
+class ProductController {
+    public function TestFunction()
     {
         // do something
         $this->setNoRender();
