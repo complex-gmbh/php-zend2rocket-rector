@@ -50,7 +50,7 @@ PHP
                 <<<'PHP'
 class SomeController
 {
-    public function get_article_infoAction()
+    public function get_article_info()
     {
     }
 }
