@@ -1,11 +1,11 @@
 <?php
 
 class ArticleController {
-    public function TestFunction {
+    public function TestFunction() {
         // do something
     }
 
-    public function getArticleInformationAction {
+    public function getArticleInformationAction() {
         // do something
     }
 }
@@ -15,11 +15,11 @@ class ArticleController {
 <?php
 
 class ArticleController {
-    public function TestFunction {
+    public function TestFunction() {
         // do something
     }
 
-    public function get_article_information {
+    public function get_article_information() {
         // do something
     }
 }

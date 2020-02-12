@@ -2,10 +2,12 @@
 
 namespace Complex\Zend2RocketRector\Tests\Rector\Controller;
 
+use Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase;
 use Iterator;
 use Complex\Zend2RocketRector\Tests\AbstractRectorWithConfigTestCase;
+use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-class ActionCamelCaseToSnakeCaseTest extends AbstractRectorWithConfigTestCase
+class ActionCamelCaseToSnakeCaseTest extends AbstractRectorTestCase
 {
     /**
      * @dataProvider provideDataForTest()
@@ -20,5 +22,10 @@ class ActionCamelCaseToSnakeCaseTest extends AbstractRectorWithConfigTestCase
     public function provideDataForTest(): Iterator
     {
         yield [__DIR__ . '/Fixture/ActionCamelCaseToSnakeCaseFixture.php.inc'];
+    }
+
+    protected function getRectorClass(): string
+    {
+        return ActionCamelCaseToSnakeCase::class;
     }
 }
