@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
-use PhpParser\Node\Identifier;
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
 use Rector\Rector\AbstractRector;
 use Rector\RectorDefinition\CodeSample;
 use Rector\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
-
+use Rector\PHPStan\Type\FullyQualifiedObjectType;
+use Rector\Core\Naming\PropertyNaming;
 
 final class RenderZendView extends AbstractRector
 {
+    /**
+     * @var PropertyNaming
+     */
+    private $propertyNaming;
+
     /**
      * @var ControllerMethodAnalyzer
      */
@@ -28,10 +34,12 @@ final class RenderZendView extends AbstractRector
 
     public function __construct(
         ControllerMethodAnalyzer $controllerMethodAnalyzer,
-        IdentifierManipulator $identifierManipulator
+        IdentifierManipulator $identifierManipulator,
+        propertyNaming $propertyNaming
     ) {
         $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
         $this->identifierManipulator = $identifierManipulator;
+        $this->propertyNaming = $propertyNaming;
     }
 
     public function getDefinition(): RectorDefinition
@@ -72,7 +80,7 @@ PHP
     {
         // identify if classmethod is an Actionmethod
         if (! $this->controllerMethodAnalyzer->isAction($node)) {
-            return null;
+            return $node;
         }
 
         // check if classmethod calls setNoRender
@@ -82,8 +90,10 @@ PHP
         }
 
         // serve Zendview
-
-        return $node;
+        $serviceObjectType = new FullyQualifiedObjectType('yesss');
+        $propertyName = $this->propertyNaming->fqnToVariableName($serviceObjectType);
+        $propertyFetchNode = $this->createPropertyFetch('this', $propertyName);
+        return new MethodCall($propertyFetchNode, $node->name, $node->args);
     }
     
 }
