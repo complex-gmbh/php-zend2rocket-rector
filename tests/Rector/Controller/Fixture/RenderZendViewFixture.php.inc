@@ -8,7 +8,8 @@ class ProductController {
         // do something
     }
 
-    public function getArticleInfoAction() {
+    public function getArticleInfoAction()
+    {
         // do something
     }
 }
@@ -19,6 +20,13 @@ class ProductController {
 
 class ProductController {
     public function TestFunction()
+    {
+        // do something
+        $this->setNoRender();
+        // do something
+    }
+
+    public function TestAction()
     {
         // do something
         $this->setNoRender();
