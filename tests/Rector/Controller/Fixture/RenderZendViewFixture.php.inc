@@ -8,6 +8,18 @@ class ProductController {
         // do something
     }
 
+    public function TestAction()
+    {
+        // do something
+        $this->setNoRender();
+        // do something
+    }
+
+    public function getArticleInfoFunction()
+    {
+        // do something
+    }
+
     public function getArticleInfoAction()
     {
         // do something
@@ -30,6 +42,11 @@ class ProductController {
     {
         // do something
         $this->setNoRender();
+        // do something
+    }
+
+    public function getArticleInfoFunction()
+    {
         // do something
     }
 
