@@ -7,16 +7,16 @@ namespace Complex\Zend2RocketRector\Rector\Controller;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
-use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
-use Rector\Rector\AbstractRector;
 use Rector\RectorDefinition\CodeSample;
-use Rector\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 use Rector\PHPStan\Type\FullyQualifiedObjectType;
-use Rector\Naming\PropertyNaming;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
+use Rector\Core\Naming\PropertyNaming;
+use Rector\Core\PhpParser\Node\Manipulator\IdentifierManipulator;
+use Rector\Core\Rector\AbstractRector;
+use Rector\Core\RectorDefinition\RectorDefinition;
 
 final class RenderZendView extends AbstractRector
 {
@@ -38,7 +38,7 @@ final class RenderZendView extends AbstractRector
     public function __construct(
         ControllerMethodAnalyzer $controllerMethodAnalyzer,
         IdentifierManipulator $identifierManipulator,
-        propertyNaming $propertyNaming
+        PropertyNaming $propertyNaming
     ) {
         $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
         $this->identifierManipulator = $identifierManipulator;

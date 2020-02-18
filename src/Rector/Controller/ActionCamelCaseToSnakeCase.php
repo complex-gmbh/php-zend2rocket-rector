@@ -8,10 +8,10 @@ use Nette\Utils\Strings;
 use PhpParser\Node\Identifier;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
-use Rector\PhpParser\Node\Manipulator\IdentifierManipulator;
-use Rector\Rector\AbstractRector;
+use Rector\Core\PhpParser\Node\Manipulator\IdentifierManipulator;
+use Rector\Core\Rector\AbstractRector;
 use Rector\RectorDefinition\CodeSample;
-use Rector\RectorDefinition\RectorDefinition;
+use Rector\Core\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 
 

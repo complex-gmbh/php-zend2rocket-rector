@@ -5,7 +5,7 @@ namespace Complex\Zend2RocketRector\Tests\Rector\Controller;
 use Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase;
 use Iterator;
 use Complex\Zend2RocketRector\Tests\AbstractRectorWithConfigTestCase;
-use Rector\Testing\PHPUnit\AbstractRectorTestCase;
+use Rector\Core\Testing\PHPUnit\AbstractRectorTestCase;
 
 class ActionCamelCaseToSnakeCaseTest extends AbstractRectorTestCase
 {
