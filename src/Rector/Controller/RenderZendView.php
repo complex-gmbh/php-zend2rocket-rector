@@ -13,7 +13,10 @@ use Rector\RectorDefinition\CodeSample;
 use Rector\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 use Rector\PHPStan\Type\FullyQualifiedObjectType;
-use Rector\Core\Naming\PropertyNaming;
+use Rector\Naming\PropertyNaming;
+use Rector\NodeTypeResolver\Node\AttributeKey;
+use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\Return_;
 
 final class RenderZendView extends AbstractRector
 {
@@ -83,17 +86,26 @@ PHP
             return $node;
         }
 
+        var_dump($node);
+
         // check if classmethod calls setNoRender
         $subnodes = $node->getSubNodeNames();
-        if (! in_array('setNoRender', $subnodes)) {
+        if ( in_array('setNoRender', $subnodes)) {
             return null;
         }
 
         // serve Zendview
-        $serviceObjectType = new FullyQualifiedObjectType('yesss');
-        $propertyName = $this->propertyNaming->fqnToVariableName($serviceObjectType);
-        $propertyFetchNode = $this->createPropertyFetch('this', $propertyName);
-        return new MethodCall($propertyFetchNode, $node->name, $node->args);
+        return $this->refactorZendViewRender($node);
     }
-    
+
+    private function refactorZendViewRender(Node $node)
+    {
+        // build AST of 'return $this->currentZendViewResult();'
+        $methodcall = $this->createMethodCall('this', 'currentZendViewResult', []);
+        $return = new Return_($methodcall);
+        $node->setAttribute(AttributeKey::PARENT_NODE, $return);
+
+        return $return;
+    }
+
 }
