@@ -86,7 +86,7 @@ PHP
             return $node;
         }
 
-        var_dump($node);
+        //var_dump($node);
 
         // check if classmethod calls setNoRender
         $subnodes = $node->getSubNodeNames();
