@@ -84,7 +84,7 @@ PHP
     /**
      * @return Node
      */
-    private function convertCamelToSnake(Node $node): Node
+    private function convertCamelToSnake(ClassMethod $node)
     {
         // check if classmethod is an Action-method
         if (! $this->isAction($node)) {
