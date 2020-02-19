@@ -98,12 +98,14 @@ PHP
         return $this->refactorZendViewRender($node);
     }
 
-    private function refactorZendViewRender(Node $node)
+    private function refactorZendViewRender(ClassMethod $node)
     {
         // build AST of 'return $this->currentZendViewResult();'
         $methodcall = $this->createMethodCall('this', 'currentZendViewResult', []);
         $return = new Return_($methodcall);
-        $node->setAttribute(AttributeKey::PARENT_NODE, $return);
+
+        $node->stmts = array_merge($node->stmts, [$return]);
+        //$node->setAttribute(AttributeKey::PARENT_NODE, $return);
 
         return $return;
     }
