@@ -83,6 +83,8 @@ PHP
 
     public function refactor(Node $node): ?Node
     {
+        echo "identify Action";
+
         // identify if classmethod is an Actionmethod
         if (! $this->isAction($node)) {
             return $node;
@@ -101,12 +103,13 @@ PHP
 
     private function refactorZendViewRender(ClassMethod $node)
     {
+        //fwrite(STDERR, 'Penis');exit();
         // build AST of 'return $this->currentZendViewResult();'
         $methodcall = $this->createMethodCall('this', 'currentZendViewResult', []);
         $return = new Return_($methodcall);
 
-        //$node->stmts = array_merge($node->stmts, [$return]);
-        $node->setAttribute(AttributeKey::PARENT_NODE, $return);
+        $node->stmts = array_merge($node->stmts, [$return]);
+        //$node->setAttribute(AttributeKey::PARENT_NODE, $return);
 
         return $node;
     }
