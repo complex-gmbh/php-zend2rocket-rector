@@ -91,7 +91,7 @@ PHP
         // check if classmethod calls setNoRender
         $subnodes = $node->getSubNodeNames();
         if ( in_array('setNoRender', $subnodes)) {
-            return null;
+            return $node;
         }
 
         // serve Zendview
