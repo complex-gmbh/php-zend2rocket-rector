@@ -10,7 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Core\PhpParser\Node\Manipulator\IdentifierManipulator;
 use Rector\Core\Rector\AbstractRector;
-use Rector\RectorDefinition\CodeSample;
+use Rector\Core\RectorDefinition\CodeSample;
 use Rector\Core\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 
@@ -107,6 +107,9 @@ PHP
         return $node;
     }
 
+    /**
+     * Detect if is <some>Action() in Controller
+     */
     public function isAction(Node $node): bool
     {
         if (! $node instanceof ClassMethod) {
@@ -126,4 +129,5 @@ PHP
 
         return false;
     }
+
 }

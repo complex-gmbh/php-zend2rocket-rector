@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Complex\Zend2RocketRector\Rector\Controller;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
-use Rector\RectorDefinition\CodeSample;
-use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
+use Rector\Core\RectorDefinition\CodeSample;
 use Rector\PHPStan\Type\FullyQualifiedObjectType;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use PhpParser\Node\Stmt\Expression;
@@ -17,6 +17,7 @@ use Rector\Core\Naming\PropertyNaming;
 use Rector\Core\PhpParser\Node\Manipulator\IdentifierManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\RectorDefinition\RectorDefinition;
+use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
 
 final class RenderZendView extends AbstractRector
 {
@@ -40,6 +41,7 @@ final class RenderZendView extends AbstractRector
         IdentifierManipulator $identifierManipulator,
         PropertyNaming $propertyNaming
     ) {
+        //fwrite(STDERR, 'constructor');exit();
         $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
         $this->identifierManipulator = $identifierManipulator;
         $this->propertyNaming = $propertyNaming;
@@ -82,11 +84,9 @@ PHP
     public function refactor(Node $node): ?Node
     {
         // identify if classmethod is an Actionmethod
-        if (! $this->controllerMethodAnalyzer->isAction($node)) {
+        if (! $this->isAction($node)) {
             return $node;
         }
-
-        //var_dump($node);
 
         // check if classmethod calls setNoRender
         $subnodes = $node->getSubNodeNames();
@@ -94,8 +94,9 @@ PHP
             return $node;
         }
 
+        $returnNode = $this->refactorZendViewRender($node);
         // serve Zendview
-        return $this->refactorZendViewRender($node);
+        return $returnNode;
     }
 
     private function refactorZendViewRender(ClassMethod $node)
@@ -104,10 +105,33 @@ PHP
         $methodcall = $this->createMethodCall('this', 'currentZendViewResult', []);
         $return = new Return_($methodcall);
 
-        $node->stmts = array_merge($node->stmts, [$return]);
-        //$node->setAttribute(AttributeKey::PARENT_NODE, $return);
+        //$node->stmts = array_merge($node->stmts, [$return]);
+        $node->setAttribute(AttributeKey::PARENT_NODE, $return);
 
         return $node;
+    }
+
+    /**
+     * Detect if is <some>Action() in Controller
+     */
+    public function isAction(Node $node): bool
+    {
+        if (! $node instanceof ClassMethod) {
+            return false;
+        }
+
+        /*
+        $parentClassName = (string) $node->getAttribute(AttributeKey::PARENT_CLASS_NAME);
+        if (Strings::endsWith($parentClassName, 'Controller')) {
+            return true;
+        }
+        */
+
+        if (Strings::endsWith((string) $node->name, 'Action')) {
+            return true;
+        }
+
+        return false;
     }
 
 }
