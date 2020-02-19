@@ -107,7 +107,7 @@ PHP
         $node->stmts = array_merge($node->stmts, [$return]);
         //$node->setAttribute(AttributeKey::PARENT_NODE, $return);
 
-        return $return;
+        return $node;
     }
 
 }
