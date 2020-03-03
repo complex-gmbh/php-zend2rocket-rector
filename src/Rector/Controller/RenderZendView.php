@@ -41,7 +41,6 @@ final class RenderZendView extends AbstractRector
         IdentifierManipulator $identifierManipulator,
         PropertyNaming $propertyNaming
     ) {
-        //fwrite(STDERR, 'constructor');exit();
         $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
         $this->identifierManipulator = $identifierManipulator;
         $this->propertyNaming = $propertyNaming;
@@ -83,22 +82,36 @@ PHP
 
     public function refactor(Node $node): ?Node
     {
-        echo "identify Action";
 
         // identify if classmethod is an Actionmethod
         if (! $this->isAction($node)) {
             return $node;
         }
 
-        // check if classmethod calls setNoRender
-        $subnodes = $node->getSubNodeNames();
-        if ( in_array('setNoRender', $subnodes)) {
+
+        // if it does not get called, return
+        if (!$this->hasSetNoRenderMethodCall($node)) {
             return $node;
         }
 
+        // refactor node
         $returnNode = $this->refactorZendViewRender($node);
-        // serve Zendview
         return $returnNode;
+    }
+
+    private function hasSetNoRenderMethodCall(ClassMethod $classMethod)
+    {
+        // check if setNoRender gets called
+        $hasSetNoRenderMethodCall = $this->betterNodeFinder->findFirst(
+            (array) $classMethod->stmts,
+            function (Node $node): bool {
+                if (! $node instanceof MethodCall) {
+                    return false;
+                }
+                return $this->isName($node->name, 'setNoRender');
+            }
+        );
+        return !$hasSetNoRenderMethodCall;
     }
 
     private function refactorZendViewRender(ClassMethod $node)
