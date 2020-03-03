@@ -18,6 +18,7 @@ use Rector\Core\PhpParser\Node\Manipulator\IdentifierManipulator;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\RectorDefinition\RectorDefinition;
 use Rector\Symfony\Bridge\NodeAnalyzer\ControllerMethodAnalyzer;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class RenderZendView extends AbstractRector
 {
@@ -36,11 +37,18 @@ final class RenderZendView extends AbstractRector
      */
     private $identifierManipulator;
 
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
     public function __construct(
+        SymfonyStyle $symfonyStyle,
         ControllerMethodAnalyzer $controllerMethodAnalyzer,
         IdentifierManipulator $identifierManipulator,
         PropertyNaming $propertyNaming
     ) {
+        $this->symfonyStyle = $symfonyStyle;
         $this->controllerMethodAnalyzer = $controllerMethodAnalyzer;
         $this->identifierManipulator = $identifierManipulator;
         $this->propertyNaming = $propertyNaming;
@@ -82,7 +90,6 @@ PHP
 
     public function refactor(Node $node): ?Node
     {
-
         // identify if classmethod is an Actionmethod
         if (! $this->isAction($node)) {
             return $node;
@@ -94,9 +101,24 @@ PHP
             return $node;
         }
 
+        // detect implicit Returns
+        $this->detectReturnStatements($node);
+
         // refactor node
         $returnNode = $this->refactorZendViewRender($node);
         return $returnNode;
+    }
+
+    private function detectReturnStatements(ClassMethod $classMethod)
+    {
+        $this->betterNodeFinder->find(
+            (array) $classMethod->stmts,
+            function (Node $node) {
+                if ($node instanceof Return_) {
+                    $this->symfonyStyle->warning('A return-statement was found inside an action method without setNoRender in line '. $node->getLine());
+                }
+            }
+        );
     }
 
     private function hasSetNoRenderMethodCall(ClassMethod $classMethod)
@@ -116,13 +138,12 @@ PHP
 
     private function refactorZendViewRender(ClassMethod $node)
     {
-        //fwrite(STDERR, 'Penis');exit();
         // build AST of 'return $this->currentZendViewResult();'
         $methodcall = $this->createMethodCall('this', 'currentZendViewResult', []);
         $return = new Return_($methodcall);
 
+        // add newly created node to classmethod
         $node->stmts = array_merge($node->stmts, [$return]);
-        //$node->setAttribute(AttributeKey::PARENT_NODE, $return);
 
         return $node;
     }
