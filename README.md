@@ -18,10 +18,11 @@ Rocket application muss erstellt werden.
 ```
 vendor/bin/rector process application/B2B/controllers/ -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml -n
 ```
+remove `-n` parameter to disable dry-run. Attention: files get modified
 
 ### Manual work after execution
 
-- check for return statement warnings in console output. Each one has to be adressed manually. The dev has to decide wether to replace the ``return`` with `return $this->currentZendViewResult();` or leave them as they are
+- check for return statement warnings in console output. Each one has to be adressed manually. The dev has to decide wether to replace the `return` with `return $this->currentZendViewResult();` or leave them as they are. Rector already inserted a new return-statement at the end of the method. This might be wrong or resulted in dead code because of a double return and should possibly be removed.
 - do the necessary manual steps //TODO
 - check git diff carefully before committing
 
