@@ -95,9 +95,13 @@ PHP
             return $node;
         }
 
-
         // if it does not get called, return
         if (!$this->hasSetNoRenderMethodCall($node)) {
+            return $node;
+        }
+
+        // check if Method is empty
+        if ($this->classMethodIsEmpty($node)) {
             return $node;
         }
 
@@ -107,6 +111,15 @@ PHP
         // refactor node
         $returnNode = $this->refactorZendViewRender($node);
         return $returnNode;
+    }
+
+    private function classMethodIsEmpty(ClassMethod $classMethod) {
+        if (count($classMethod->stmts) == 0) {
+            $classNode = $this->$currentClassMethod->getAttribute(AttributeKey::CLASS_NODE);
+            $this->symfonyStyle->caution('empty classMethod "'.$classMethod->name.'" in "'. $classNode->name .'" on line '. $classMethod->getLine());
+            return true;
+        }
+        return false;
     }
 
     private $currentClassMethod;
