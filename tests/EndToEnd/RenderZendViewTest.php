@@ -1,7 +1,7 @@
 <?php
 
 
-class ProductController extends Clx_Controller_Action {
+class ProductController {
 
     public function TestFunction()
     {

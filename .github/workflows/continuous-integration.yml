@@ -34,3 +34,6 @@ jobs:
 
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit tests/"
+
+      - name: "RenderZendViewRector EndToEnd-Test"
+      - run: "vendor/bin/rector process vendor/complex/php-zend2rocket-rector/tests/EndToEnd/RenderZendViewTest.expected.php -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml"
