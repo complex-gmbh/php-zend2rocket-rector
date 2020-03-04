@@ -109,13 +109,16 @@ PHP
         return $returnNode;
     }
 
+    private $currentClassMethod;
     private function detectReturnStatements(ClassMethod $classMethod)
     {
+        $this->$currentClassMethod = $classMethod;
         $this->betterNodeFinder->find(
             (array) $classMethod->stmts,
             function (Node $node) {
                 if ($node instanceof Return_) {
-                    $this->symfonyStyle->warning('A return-statement was found inside an action method without setNoRender in line '. $node->getLine());
+                    $classNode = $this->$currentClassMethod->getAttribute(AttributeKey::CLASS_NODE);
+                    $this->symfonyStyle->warning('Return-statement was found inside an action method in Class "'. $classNode->name .'" on line '. $node->getLine());
                 }
             }
         );
