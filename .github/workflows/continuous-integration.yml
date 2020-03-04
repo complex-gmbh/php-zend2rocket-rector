@@ -32,8 +32,9 @@ jobs:
       - name: "Install locked dependencies with composer"
         run: "composer install --no-interaction --no-progress --no-suggest"
 
+      - name: "RenderZendViewRector EndToEnd-Test"
+        run: "vendor/bin/rector process vendor/complex/php-zend2rocket-rector/tests/EndToEnd/RenderZendViewTest.expected.php -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml"
+
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit tests/"
 
-      - name: "RenderZendViewRector EndToEnd-Test"
-        run: "vendor/bin/rector process vendor/complex/php-zend2rocket-rector/tests/EndToEnd/RenderZendViewTest.expected.php -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml"
