@@ -33,7 +33,7 @@ jobs:
         run: "composer install --no-interaction --no-progress --no-suggest"
 
       - name: "RenderZendViewRector EndToEnd-Test"
-        run: "vendor/bin/rector process vendor/complex/php-zend2rocket-rector/tests/EndToEnd/RenderZendViewTest.expected.php -c vendor/complex/php-zend2rocket-rector/config/zend2rocket-controller.yaml"
+        run: "vendor/bin/rector process tests/EndToEnd/RenderZendViewTest.php -c tests/EndToEnd/zend2rocket-controller-test.yaml -n"
 
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit tests/"
