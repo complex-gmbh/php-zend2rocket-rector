@@ -8,10 +8,13 @@ composer require --dev complex/php-zend2rocket-rector:dev-master
 ```
 
 ### Autoloading
-make sure controller classes are autoloaded
-TODO
-### Rocket Appilcation erstellen
-Rocket application muss erstellt werden.
+
+- copy the `autoload-rector.php` into your project root folder. This ensures all controllers could be autoloaded in the refactoring process
+- check for correct paths in line 4-5. At least the tenant name in line 5 has to be changed to foldername accordingly.
+
+### Rocket Application
+
+Rocket Application has to be created by @clxmstaab
 
 ### Run Rector
 
@@ -26,6 +29,12 @@ remove `-n` parameter to disable dry-run. Attention: files get modified
 - empty ClassMethod: for every empty ClassMethod Warning `return $this->currentZendViewResult();` has to be inserted manually.
 do the necessary manual steps //TODO
 - check git diff carefully before committing
+
+### Cleanup
+
+- remove `autoload-rector.php`. It's no longer needed
+- remove `complex/php-zend2rocket-rector` dependency from project
+- ALL DONE! All Controllers are now Rocket based.
 
 ## Unittests
 ```
