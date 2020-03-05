@@ -29,6 +29,7 @@ class ProductController {
     {
         echo "124";
         // do something
+        return $this->currentZendViewResult();
     }
 
     /* -> rector issue: https://github.com/rectorphp/rector/issues/2994 / https://github.com/rectorphp/rector/issues/2991
@@ -47,6 +48,7 @@ class ProductController {
             return true;
         }
         return true;
+        return $this->currentZendViewResult();
     }
 
     /**
