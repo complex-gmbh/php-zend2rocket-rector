@@ -3,7 +3,7 @@
 ### Installation
 Global installation outside of the project is recommended with:
 ```
-composer global require --dev complex/php-zend2rocket-rector
+composer global require --dev rector/rector
 composer require --dev complex/php-zend2rocket-rector:dev-master
 ```
 
