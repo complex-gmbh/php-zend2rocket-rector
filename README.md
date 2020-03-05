@@ -29,6 +29,12 @@ remove `-n` parameter to disable dry-run. Attention: files get modified
 - empty ClassMethod: for every empty ClassMethod Warning `return $this->currentZendViewResult();` has to be inserted manually.
 - check git diff carefully before committing
 
+### Further manual steps (copied from @clxmstaab's receipe)
+- `svn mv` the controller into the B2Brocket/controllers directory
+- make sure all javascript related logic sends a `Accept: application/json` http header, e.g. using `jQuery.ajax(...dataType: 'json',...)`
+- add a RewriteRule so your controller will be served via a rocket front-controller
+* - e.g. in daiber append the common-rewrite-rules.conf with `RewriteRule ^/([a-z]{2})/modulecms/(.+) /www/www/daiber/public/B2Brocket/index.php [L]`
+
 ### Cleanup
 
 - remove `autoload-rector.php`. It's no longer needed
