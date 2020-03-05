@@ -88,7 +88,6 @@ class ProductController {
                 'image' => '/img/vearten/bestickbar.svg'
             )
         );
-        return $this->currentZendViewResult();
     }
 
     public function autocompleteAction()
