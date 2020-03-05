@@ -32,8 +32,7 @@ remove `-n` parameter to disable dry-run. Attention: files get modified
 ### Further manual steps (copied from @clxmstaab's receipe)
 - `svn mv` the controller into the B2Brocket/controllers directory
 - make sure all javascript related logic sends a `Accept: application/json` http header, e.g. using `jQuery.ajax(...dataType: 'json',...)`
-- add a RewriteRule so your controller will be served via a rocket front-controller
-* - e.g. in daiber append the common-rewrite-rules.conf with `RewriteRule ^/([a-z]{2})/modulecms/(.+) /www/www/daiber/public/B2Brocket/index.php [L]`
+- add a RewriteRule so your controller will be served via a rocket front-controller. E.g. in daiber append the common-rewrite-rules.conf with `RewriteRule ^/([a-z]{2})/modulecms/(.+) /www/www/daiber/public/B2Brocket/index.php [L]`
 
 ### Cleanup
 
