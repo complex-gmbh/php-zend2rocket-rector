@@ -31,10 +31,12 @@ class ProductController {
         // do something
     }
 
+    /* -> rector issue: https://github.com/rectorphp/rector/issues/2994 / https://github.com/rectorphp/rector/issues/2991
     public function getArticleBackDetailsAction()
     {
         // do something
     }
+    */
 
     public function multipleImplicitReturnsAction()
     {
@@ -53,6 +55,7 @@ class ProductController {
      * @param unknown $array
      * @return multitype:number
      */
+    /* -> rector issue: https://github.com/rectorphp/rector/issues/2989
     protected function _getCountByArtfarbeid($array)
     {
         $count = array();
@@ -65,6 +68,7 @@ class ProductController {
         }
         return $count;
     }
+    */
 
     public function getArticleInfoAction()
     {
