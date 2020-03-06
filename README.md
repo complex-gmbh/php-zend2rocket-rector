@@ -1,9 +1,14 @@
 # Zend2Rocket Rector set
 
 ### Installation
-Global installation outside of the project is recommended with:
+First change `platform php` version temporary to `7.3`
 ```
-composer global require --dev rector/rector
+"platform" : {
+            "php": "7.3"
+}
+```
+Install `php-zend2rocket-rector`:
+```
 composer require --dev complex/php-zend2rocket-rector:dev-master
 ```
 
@@ -34,10 +39,11 @@ remove `-n` parameter to disable dry-run. Attention: files get modified
 - make sure all javascript related logic sends a `Accept: application/json` http header, e.g. using `jQuery.ajax(...dataType: 'json',...)`
 - add a RewriteRule so your controller will be served via a rocket front-controller. E.g. in daiber append the common-rewrite-rules.conf with `RewriteRule ^/([a-z]{2})/modulecms/(.+) /www/www/daiber/public/B2Brocket/index.php [L]`
 
-### Cleanup
+### Final Cleanup
 
 - remove `autoload-rector.php`. It's no longer needed
 - remove `complex/php-zend2rocket-rector` dependency from project
+- change `Platform php` version back to its original (currently 7.0)
 - ALL DONE! All Controllers are now Rocket based.
 
 ## Unittests
