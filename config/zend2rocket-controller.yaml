@@ -7,7 +7,7 @@ services:
         $oldToNewClasses:
             Clx_Controller_Action: ApplicationController
     # $this->json(x) to return $this->json(xxx)
-    Rector\Core\MethodCall\MethodCallToReturnRector:
+    Rector\Core\Rector\MethodCall\MethodCallToReturnRector:
         $methodNamesByType:
             Clx_Controller_Action:
                 - json
