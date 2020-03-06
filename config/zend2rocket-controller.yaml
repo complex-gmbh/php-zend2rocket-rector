@@ -1,6 +1,6 @@
 parameters:
     autoload_paths:
-        - 'autoload-Rector.php'
+        - 'autoload-rector.php'
 services:
     # rename Clx_Controller_Action class to ApplicationController
     Rector\Renaming\Rector\Class_\RenameClassRector:
