@@ -4,7 +4,7 @@
 First change `platform php` version temporary to `7.3`
 ```
 "platform" : {
-            "php": "7.3"
+  "php": "7.3"
 }
 ```
 Install `php-zend2rocket-rector`:
