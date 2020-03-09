@@ -27,11 +27,17 @@ class ProductController {
 
     public function getArticleDetailsAction()
     {
-        // do something
         echo "124";
         return $this->currentZendViewResult();
+        // do something
     }
 
+    /* -> rector issue: https://github.com/rectorphp/rector/issues/2994 / https://github.com/rectorphp/rector/issues/2991
+     * public function getArticleBackDetailsAction()
+        {
+            // do something
+        }
+        */
     public function multipleImplicitReturnsAction()
     {
         for ($i = 0; $i < 5; $i++) {
@@ -41,6 +47,44 @@ class ProductController {
             return true;
         }
         return true;
+        return $this->currentZendViewResult();
+    }
+
+    /**
+     * count artfarbenids in aset of articles (used in basket and stock)
+     *
+     * @param unknown $array
+     * @return multitype :number
+     *//* -> rector issue: https://github.com/rectorphp/rector/issues/2989
+    protected function _getCountByArtfarbeid($array)
+    {
+        $count = array();
+        foreach ($array as $item) {
+            if (array_key_exists($item->getArtfarbeid(), $count)) {
+                $count[$item->getArtfarbeid()] ++;
+            } else {
+                $count[$item->getArtfarbeid()] = 1;
+            }
+        }
+        return $count;
+    }
+    */
+    public function getArticleInfoAction()
+    {
+        echo "124";
+        // do something
+        //bestaende
+        $vetechs = array(
+            4 => array(
+                'description' => $translations[$this->t_getLanguage()->getKuerzel()][4],
+                'image' => '/img/vearten/ink.svg'
+            ),
+
+            5 => array(
+                'description' => $translations[$this->t_getLanguage()->getKuerzel()][5],
+                'image' => '/img/vearten/bestickbar.svg'
+            )
+        );
         return $this->currentZendViewResult();
     }
 
