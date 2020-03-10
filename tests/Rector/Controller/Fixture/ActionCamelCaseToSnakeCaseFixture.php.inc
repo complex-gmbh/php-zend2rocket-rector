@@ -1,5 +1,7 @@
 <?php
 
+namespace Complex\Zend2Rocket\Tests\Rector\Controller\Fixture;
+
 class ArticleController {
     public function TestFunction()
     {
@@ -15,6 +17,8 @@ class ArticleController {
 ?>
 -----
 <?php
+
+namespace Complex\Zend2Rocket\Tests\Rector\Controller\Fixture;
 
 class ArticleController {
     public function TestFunction()

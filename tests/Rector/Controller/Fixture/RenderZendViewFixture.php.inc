@@ -1,5 +1,7 @@
 <?php
 
+namespace Complex\Zend2Rocket\Tests\Rector\Controller\Fixture;
+
 class ProductController {
     public function TestFunction()
     {
@@ -23,6 +25,7 @@ class ProductController {
     public function getArticleInfoAction()
     {
         // do something
+        echo "123";
     }
 }
 
@@ -30,6 +33,8 @@ class ProductController {
 -----
 <?php
 
+namespace Complex\Zend2Rocket\Tests\Rector\Controller\Fixture;
+
 class ProductController {
     public function TestFunction()
     {
@@ -53,6 +58,7 @@ class ProductController {
     public function getArticleInfoAction()
     {
         // do something
+        echo "123";
         return $this->currentZendViewResult();
     }
 }
