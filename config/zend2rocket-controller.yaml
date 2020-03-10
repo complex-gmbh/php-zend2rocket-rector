@@ -1,25 +1,25 @@
 parameters:
     autoload_paths:
-        - 'autoload-Rector.php'
+        - 'autoload-rector.php'
 services:
     # rename Clx_Controller_Action class to ApplicationController
-    #Rector\Renaming\Rector\Class_\RenameClassRector:
-    #    $oldToNewClasses:
-    #        Clx_Controller_Action: ApplicationController
+    Rector\Renaming\Rector\Class_\RenameClassRector:
+        $oldToNewClasses:
+            Clx_Controller_Action: ApplicationController
     # $this->json(x) to return $this->json(xxx)
-    #Rector\Core\MethodCall\MethodCallToReturnRector:
-    #    $methodNamesByType:
-    #        Clx_Controller_Action:
-    #            - json
-    #            - renderScript
+    Rector\Core\Rector\MethodCall\MethodCallToReturnRector:
+        $methodNamesByType:
+            Clx_Controller_Action:
+                - json
+                - renderScript
     # change init to protected
-    #Rector\Core\Visibility\ChangeMethodVisibilityRector:
-    #    $methodToVisibilityByClass:
-    #        Clx_Controller_Action:
-    #            init: protected
-    # Camel-case to Snakecase
-    #Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase: null
+    Rector\Core\Rector\Visibility\ChangeMethodVisibilityRector:
+        $methodToVisibilityByClass:
+            Clx_Controller_Action:
+                init: protected
+    # Camel-case to Snakecase & remove actionsuffix
+    Complex\Zend2RocketRector\Rector\Controller\ActionCamelCaseToSnakeCase: null
     # Render Zendview via Rocketlayer if no setNoRender
     Complex\Zend2RocketRector\Rector\Controller\RenderZendView: null
-    # remove suffix action from functions
+    # remove suffix action from functions - ActionCamelCaseToSnakeCase does it now
     #Rector\Symfony\Rector\Controller\ActionSuffixRemoverRector: null

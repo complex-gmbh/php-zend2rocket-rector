@@ -95,9 +95,13 @@ PHP
             return $node;
         }
 
-
         // if it does not get called, return
         if (!$this->hasSetNoRenderMethodCall($node)) {
+            return $node;
+        }
+
+        // check if Method is empty
+        if ($this->classMethodIsEmpty($node)) {
             return $node;
         }
 
@@ -109,15 +113,22 @@ PHP
         return $returnNode;
     }
 
-    private $currentClassMethod;
+    private function classMethodIsEmpty(ClassMethod $classMethod) {
+        if (count($classMethod->stmts) == 0) {
+            $classNode = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
+            $this->symfonyStyle->caution('empty classMethod "'.$classMethod->name.'" in "'. $classNode->name .'" on line '. $classMethod->getLine());
+            return true;
+        }
+        return false;
+    }
+
     private function detectReturnStatements(ClassMethod $classMethod)
     {
-        $this->$currentClassMethod = $classMethod;
         $this->betterNodeFinder->find(
             (array) $classMethod->stmts,
-            function (Node $node) {
+            function (Node $node) use ($classMethod) {
                 if ($node instanceof Return_) {
-                    $classNode = $this->$currentClassMethod->getAttribute(AttributeKey::CLASS_NODE);
+                    $classNode = $classMethod->getAttribute(AttributeKey::CLASS_NODE);
                     $this->symfonyStyle->warning('Return-statement was found inside an action method in Class "'. $classNode->name .'" on line '. $node->getLine());
                 }
             }
