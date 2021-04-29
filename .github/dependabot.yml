@@ -1,0 +1,35 @@
+version: 2
+registries:
+  composer-repository-repo-packagist-com:
+    type: composer-repository
+    url: https://repo.packagist.com
+    username: token
+    password: "${{secrets.COMPOSER_REPOSITORY_REPO_PACKAGIST_COM_PASSWORD}}"
+  composer-repository-www-phpclasses-org:
+    type: composer-repository
+    url: https://www.phpclasses.org
+    username: kills
+    password: "${{secrets.COMPOSER_REPOSITORY_WWW_PHPCLASSES_ORG_PASSWORD}}"
+  composer-repository-complex-it-xp-dev-com:
+    type: composer-repository
+    url: https://complex-it.xp-dev.com
+    username: travisci
+    password: "${{secrets.COMPOSER_REPOSITORY_COMPLEX_IT_XP_DEV_COM_PASSWORD}}"
+
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  pull-request-branch-name:
+    separator: "-"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rector/rector
+    versions:
+    - "> 0.7.0"
+  registries:
+  - composer-repository-repo-packagist-com
+  - composer-repository-www-phpclasses-org
+  - composer-repository-complex-it-xp-dev-com
